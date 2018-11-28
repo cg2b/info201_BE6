@@ -11,19 +11,29 @@ The major theme that this project will be exploring is social security in Seattl
 1.2 Target audience
 This project focuses on people who are concerned about their safety in Seattle. It gives people a visualization of frequency that crimes occur differentiates in different neighborhoods in Seattle, especially for those who intend to avoid living in the district where crime happens frequently.
 The questions that the project will answer for audiences are below:
+
 	•	Based on the time of the day, can we detect what kind of fire call will be more prevalent?
+	
 	•	What is the common neighborhood/areas for crime in Seattle?
+	
 	•	What are the top common crimes in Seattle?
+	
 	•	What are the common times that crimes occur the most (range of time)?
+	
 	•	Yearly
+	
 	•	What season has what type of crimes the most/least?
+	
 	•	Amount of each type of crime each year?
+	
 	•	Visualization of Maps of Fire Calls
 
 
 
 2 Technical Description
+
 2.1 Format of product 
+
 The format of our final product will be an HTML page with visuals and a detailed description of our analysis with our dataset. We will use simple HTML and CSS to present our graphs (as pictures) and include text that guides the audience to relevant information and explain our methodology in parsing and presenting the data.
 2.2 Methods of reading data
 We will be reading in our data in a static “.csv” file downloaded from the City of Seattle dataset website.
