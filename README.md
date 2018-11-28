@@ -1,7 +1,5 @@
 # INFO 201 BE6
-Project Proposal
-INFO 201 BE	 Group BE6
-Group Members: Cheng Gong, Yingrui Jia, Elizabeth Lin and Colton M Hagan
+Cheng Gong, Yingrui Jia, Elizabeth Lin and Colton M Hagan
 
 1 Project Description
 
