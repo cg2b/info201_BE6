@@ -5,7 +5,9 @@ Group Members: Cheng Gong, Yingrui Jia, Elizabeth Lin and Colton M Hagan
 
 1 Project Description
 1.1 Background and datasets
-The major theme that this project will be exploring is social security in Seattle. There are two sets of data that our group will be working with, Fire Data and Crime Data. The first one is the collection of data from Fire 911 Last 24 Hours. This data is found in the Public Safety section of Seattle Open Data Portal. It provides us with 7 aspects of relevant information including address, type of fire call, date and time, Latitude, Longitude, report location and Incident number. The Crime Data represents crime reported to Seattle Police Department. This data is also found in Seattle Open Data Portal. The Crime Data consists of information regarding to Report Number, occured data, occured time, reported data, reported time, Crime Subcategory and Primary Offense Description.                                                   
+
+The major theme that this project will be exploring is social security in Seattle. There are two sets of data that our group will be working with, Fire Data and Crime Data. The first one is the collection of data from Fire 911 Last 24 Hours. This data is found in the Public Safety section of Seattle Open Data Portal. It provides us with 7 aspects of relevant information including address, type of fire call, date and time, Latitude, Longitude, report location and Incident number. The Crime Data represents crime reported to Seattle Police Department. This data is also found in Seattle Open Data Portal. The Crime Data consists of information regarding to Report Number, occured data, occured time, reported data, reported time, Crime Subcategory and Primary Offense Description. 
+
 1.2 Target audience
 This project focuses on people who are concerned about their safety in Seattle. It gives people a visualization of frequency that crimes occur differentiates in different neighborhoods in Seattle, especially for those who intend to avoid living in the district where crime happens frequently.
 The questions that the project will answer for audiences are below:
