@@ -37,7 +37,7 @@ shinyServer(function(input, output) {
     colors = c("yellow", "orange", "red", "darkred")
   }
     ggplot(data, aes(x=Longitude, y=Latitude)) +
-      geom_point(aes(color = Calls)) + 
+      geom_point(aes(color = Calls)) + ggtitle("Seattle") +
       scale_color_gradientn(colours = colors,
                             values = c(1.0,0.2,0.075,0.01,0)) + coord_map()
   })
