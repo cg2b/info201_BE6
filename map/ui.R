@@ -11,9 +11,15 @@ shinyUI(fluidPage(
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
     sidebarPanel(
-       ##sliderInput()
+      selectInput("color", label = "Select a color:", c(Green = "green", Red = "red",
+                                                        Blue = "blue", Grey = "grey",
+                                                        Fire = "fire")),
+      radioButtons(
+        "year",
+        "Select a year",
+        c("2017", "2018")
+      )
     ),
-    
     # Show a plot of the generated distribution
     mainPanel(
        plotOutput("map")
