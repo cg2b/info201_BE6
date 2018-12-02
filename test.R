@@ -14,17 +14,19 @@ data <- mutate(data, Month = month)
 #Selects needed data
 data <- select(data, Address, Month, Latitude, Longitude)
 
-#picks the month 
-#data <- filter(data, (Month == 1|Month == 2|Month == 3))
+#reduces data, so faster to run -- remove latter
+#data <- filter(data, (Month == 1))
 
-#Removes N/A
+#Removes N/A and subtracts outliers
 data <- data[complete.cases(data), ]
+data <- filter(data, Latitude > 47.45, Latitude < 47.75, Longitude < -122.225)
 
 data <- add_count(data, Address)
   
 jpeg("map.jpg")
 
-map <- ggplot() + geom_point(data = data, aes(x = Longitude, y = Latitude), color = data$n) + 
-  ggtitle("Map")
+map <- ggplot(data, aes(x=Longitude, y=Latitude)) +
+  geom_point(aes(color = n))
+  #scale_color_gradient2(midpoint = 5, low = "darkblue", mid = "lightblue", high = "white")
 ggsave("map.jpg")
 dev.off()
