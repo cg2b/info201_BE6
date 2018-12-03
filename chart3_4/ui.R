@@ -27,8 +27,11 @@ ui <- fluidPage({
         splitLayout(
           cellWidths = c("50%", "50%"), 
           plotOutput("firecall"), 
-          plotOutput("crime"))
-      )
+          plotOutput("crime")
+          )
+      ),
+      tags$code("would it", tags$b("work?")),
+      tags$em("Maybe")
     )
   )
 
