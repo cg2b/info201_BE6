@@ -34,12 +34,11 @@ server <- function(input, output) {
   output$barPlot_state <- renderPlot({
     time.table <- input_data()
     barplot(time.table$freq.crime, 
-            horiz = FALSE,
+            horiz = TRUE,
             main = "Frequency of crimes during certain time of a day",
-            las = 1,
+            las = 2,
             names.arg = c("morning", "afternoon", "night", "midnight"),
-            xlab = "Time period of a day",
-            ylab = "frequency of crimes",
+            xlab = "frequency of crimes",
             col= c("mistyrose1", "mistyrose2", "mistyrose3", "mistyrose4"))
     
   })
