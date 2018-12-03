@@ -15,9 +15,11 @@ shinyServer(function(input, output) {
       mutate(Year = year) %>%
       #Includes only selected year
       filter(Year == input$year) %>%
+      #Counts occurances per address
       add_count(Address) %>%
       mutate(Calls = n) %>%
       select(Year, Latitude, Longitude, Calls) %>%
+      #Removes outliers  
       filter(Latitude > 47.45, Latitude < 47.75, Longitude < -122.225)
     
     #Removes incomplete data
@@ -27,15 +29,18 @@ shinyServer(function(input, output) {
   output$map <- renderPlot({
     data = pick_data()
     
-  if (input$color == "blue"|input$color == "green") {
-    colors = c(paste0("light",input$color), input$color, paste0("dark",input$color), "black")
-  } else if (input$color == "red"){
-    colors = c("pink",input$color, input$color, paste0("dark",input$color), "black")
-  } else if (input$color == "grey"){
-    colors = c("white",input$color, input$color, paste0("dark",input$color), "black")
-  } else {
-    colors = c("yellow", "orange", "red", "darkred")
-  }
+    #Changes color via input
+    if (input$color == "blue"|input$color == "green") {
+      colors = c(paste0("light",input$color), input$color, paste0("dark",input$color), "black")
+    } else if (input$color == "red"){
+      colors = c("pink",input$color, input$color, paste0("dark",input$color), "black")
+    } else if (input$color == "grey"){
+      colors = c("white",input$color, input$color, paste0("dark",input$color), "black")
+    } else {
+      colors = c("yellow", "orange", "red", "darkred")
+    }
+    
+    #Plots
     ggplot(data, aes(x=Longitude, y=Latitude)) +
       geom_point(aes(color = Calls)) + ggtitle("Seattle") +
       scale_color_gradientn(colours = colors,
