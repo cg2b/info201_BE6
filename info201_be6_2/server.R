@@ -152,7 +152,7 @@ server <- function(input, output) {
   # pie chart
   
   output$pie <- renderPlot({
-    if (input$rank == "top20") {
+    if (input$rank == "top10") {
       
       pie(top10$Crime.Amount, 
           col = c("#ccffb2", "#feff9e", "#aaebf9", "#f5c1ff", "#ffa7dc"),
