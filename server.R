@@ -5,30 +5,32 @@ library('dplyr')
 library('ggrepel')
 
 server <- function(input, output) {
+      # Create dataframe from main dataset
       data <- as.data.frame(read.csv("data/crime.csv", stringsAsFactors = FALSE))
       uniqueNeighborhoods <- unique(data$Neighborhood)
       
+      # Get crime amount for each neighborhood in a vector
       fullvector <- c()
       for (one in uniqueNeighborhoods) {
         one <- nrow(data %>% filter(Neighborhood == one))
         fullvector <- c(fullvector, one)
       } 
       
+      # Top 10 and Last 10 Crime Neighborhoods
       final <- data.frame("Neighborhood Name" = uniqueNeighborhoods, "Crime Amount" = fullvector)
       final <- final[order(-(final$Crime.Amount)),]
-      top20 <- slice(final, 1:20)
-      
+      top10 <- slice(final, 1:10)
       final2 <- final[order(final$Crime.Amount),]
-      least20 <- slice(final2, 1:20)
+      least10 <- slice(final2, 1:10)
       
       output$pie <- renderPlot({
-      if (input$color == "top20") {
-        pie(top20$Crime.Amount, col = c("#ccffb2", "#feff9e", "#aaebf9", "#f5c1ff", "#ffa7dc"),
-        labels=top20$Neighborhood.Name, main = paste0("Top 20 Crime Neighborhoods"))
+      if (input$color == "top10") {
+        pie(top10$Crime.Amount, col = c("#ccffb2", "#feff9e", "#aaebf9", "#f5c1ff", "#ffa7dc"),
+        labels=top10$Neighborhood.Name, main = paste0("Top 10 Crime Neighborhoods"))
       }
       else {
-        pie(least20$Crime.Amount, col = c("#fc3232", "#13d604", "#ffe74d", "#ff8c4a", "#2b8fef"),
-        labels=least20$Neighborhood.Name, main = paste0("Last 20 Crime Neighborhoods"))
+        pie(least10$Crime.Amount, col = c("#fc3232", "#13d604", "#ffe74d", "#ff8c4a", "#2b8fef"),
+        labels=least10$Neighborhood.Name, main = paste0("Last 10 Crime Neighborhoods"))
       }
       })
 }

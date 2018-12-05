@@ -4,7 +4,7 @@ library("dplyr")
 ui <- fluidPage(
     mainPanel( 
       radioButtons("color", label = "Pick Which Neighborhoods",
-                 choices = list("Top 20 Crime Neighborhoods" = "top20", "Last 20 Crime Neighborhoods" = "last20")),
+                 choices = list("Top 10 Crime Neighborhoods" = "top10", "Last 10 Crime Neighborhoods" = "last10")),
       plotOutput('pie')
     )
   )
