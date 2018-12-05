@@ -44,7 +44,7 @@ server <- function(input, output) {
         aes(Year, freq, fill = Year) +
         geom_text(label = data_911_year$freq) +
         ggtitle("Fire Calls Overview of 2017 and 2018") +
-        labs(x = "year", y = "reports") +
+        labs(x = "Year", y = "Reports") +
         scale_fill_manual(
           breaks = data_911_year$Year,
           values = c("indianred3", "sienna2"),
@@ -89,7 +89,7 @@ server <- function(input, output) {
         aes(Year, freq, fill = Year) +
         geom_text(label = data_crime_year$freq) +
         ggtitle("Crime Overview of 2017 and 2018") +
-        labs(x = "year", y = "reports") +
+        labs(x = "Year", y = "Reports") +
         scale_fill_manual(
           breaks = data_crime_year$Year,
           values = c("dodgerblue3", "steelblue3"),
@@ -157,7 +157,8 @@ server <- function(input, output) {
       pie(top10$Crime.Amount, 
           col = c("#ccffb2", "#feff9e", "#aaebf9", "#f5c1ff", "#ffa7dc"),
           labels = top10$Neighborhood.Name, 
-          main = paste0("Top 10 Crime Neighborhoods")
+          main = paste0("Top 10 Crime Neighborhoods"),
+          cex = .6
           )
     }
     else {
@@ -165,7 +166,8 @@ server <- function(input, output) {
       pie(least10$Crime.Amount, 
           col = c("#fc3232", "#13d604", "#ffe74d", "#ff8c4a", "#2b8fef"),
           labels = least10$Neighborhood.Name, 
-          main = paste0("Last 10 Crime Neighborhoods")
+          main = paste0("Last 10 Crime Neighborhoods"),
+          cex = .6
           )
     }
   })
@@ -212,10 +214,10 @@ server <- function(input, output) {
     barplot(
       time.table$freq.crime, 
       horiz = TRUE,
-      main = "Frequency of crimes during certain time of a day",
-      las = 1,
-      names.arg = c("morning", "afternoon", "night", "midnight"),
-      xlab = "frequency of crimes",
+      main = "Time and frequency of crimes",
+      las = 0,
+      names.arg = c("Morning", "Afternoon", "Night", "Midnight"),
+      xlab = "Frequency of crimes",
       col= c("mistyrose1", "mistyrose2", "mistyrose3", "mistyrose4")
       )
     

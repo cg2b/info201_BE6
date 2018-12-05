@@ -116,7 +116,7 @@ ui <- fluidPage(
       8,
       offset = 1,
       splitLayout(
-        cellWidths = c("45%", "55%"),
+        cellWidths = c("55%", "45%"),
         plotOutput('pie'),
         plotOutput("barPlot_state")
       ),
@@ -172,7 +172,7 @@ ui <- fluidPage(
       8,
       offset = 1,
       splitLayout(
-        cellWidths = c("40%", "10%", "40%"),
+        cellWidths = c("50%", "40%"),
         tags$div(tags$br(), 
                  tags$br(),
                  textOutput("descrip_map")),
