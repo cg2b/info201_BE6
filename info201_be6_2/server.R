@@ -222,8 +222,8 @@ server <- function(input, output) {
   
   # data preparation
   pick_data <- reactive({
-    #Finds year
     map_data <- df_911_3
+    #Finds year
     map_data$Datetime = substr(map_data$Datetime, start = 1, stop = 10)
     year <- year(as.POSIXlt(map_data$Datetime, format="%m/%d/%Y"))
     
@@ -235,6 +235,7 @@ server <- function(input, output) {
       add_count(Address) %>%
       mutate(Calls = n) %>%
       select(Year, Latitude, Longitude, Calls) %>%
+      #Removes a couple extreme outliers
       filter(Latitude > 47.45, Latitude < 47.75, Longitude < -122.225)
     
     #Removes incomplete data
@@ -245,6 +246,7 @@ server <- function(input, output) {
   output$map <- renderPlot({
     map_data = pick_data()
     
+    #Picks and prints color
     if (input$color == "blue"|input$color == "green") {
       map_colors = c(paste0("light",input$color), input$color, paste0("dark",input$color), "black")
     } 
@@ -258,6 +260,7 @@ server <- function(input, output) {
       map_colors = c("yellow", "orange", "red", "darkred")
     }
     
+    #Plots
     ggplot(map_data, aes(x=Longitude, y=Latitude)) +
       geom_point(aes(color = Calls)) + ggtitle("Seattle") +
       scale_color_gradientn(colours = map_colors,

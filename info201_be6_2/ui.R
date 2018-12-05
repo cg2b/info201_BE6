@@ -82,13 +82,13 @@ ui <- fluidPage(
       radioButtons(
         "firecall",
         label = "Distribution of Firecall: Select a year",
-        choices = list("summary" = 1, "2017" = "2017", "2018" = "2018"),
+        choices = list("Summary" = 1, "2017" = "2017", "2018" = "2018"),
         selected = 1
       ),
       radioButtons(
         "crime",
         label = "Distribution of Crime: Select a year",
-        choices = list("summary" = 1, "2017" = "2017", "2018" = "2018"),
+        choices = list("Summary" = 1, "2017" = "2017", "2018" = "2018"),
         selected = 1
       )
       
