@@ -1,61 +1,22 @@
-# INFO 201 BE6
-Cheng Gong, Yingrui Jia, Elizabeth Lin and Colton M Hagan
-
-1 Project Description
-
-1.1 Background and datasets
-
-The major theme that this project will be exploring is social security in Seattle. There are two sets of data that our group will be working with, Fire Data and Crime Data. The first one is the collection of data from Fire 911 Last 24 Hours. This data is found in the Public Safety section of Seattle Open Data Portal. It provides us with 7 aspects of relevant information including address, type of fire call, date and time, Latitude, Longitude, report location and Incident number. The Crime Data represents crime reported to Seattle Police Department. This data is also found in Seattle Open Data Portal. The Crime Data consists of information regarding to Report Number, occured data, occured time, reported data, reported time, Crime Subcategory and Primary Offense Description. 
+# INFO 201 BE6: Public Safety in Seattle
+Group members: Cheng Gong, Yingrui Jia, Elizabeth Lin, and Colton Hagan
+### Background Information(Cheng)
 
 
-1.2 Target audience
+The theme our group is going to explore is public safety in Seattle. Therefore, we downloaded two datasets that highly represent the certain situation in Seattle, `crime` and `firecall` datasets containing relevant information of date and time of reports, locations of the reports, types of the reports on the website `Seattle Open Data Portal`. This project focuses on people who are concerned about their safety in Seattle. By using R packages and shiny application, we made this report and gives people visualizations of frequency that reported crimes or fire calls differentiate in different neighborhoods or time periods in Seattle.
 
-This project focuses on people who are concerned about their safety in Seattle. It gives people a visualization of frequency that crimes occur differentiates in different neighborhoods in Seattle, especially for those who intend to avoid living in the district where crime happens frequently.
-The questions that the project will answer for audiences are below:
+The blockquote on the right side is the distribution of our work.
 
-	•	Based on the time of the day, can we detect what kind of fire call will be more prevalent?
-	
-	•	What is the common neighborhood/areas for crime in Seattle?
-	
-	•	What are the top common crimes in Seattle?
-	
-	•	What are the common times that crimes occur the most (range of time)?
-	
-	•	Yearly
-	
-	•	What season has what type of crimes the most/least?
-	
-	•	Amount of each type of crime each year?
-	
-	•	Visualization of Maps of Fire Calls
+### 1. Overview(Teresa)
+The two plots are displaying the frequency of *crime* and *firecall* recorded during the year 2017 and 2018. The widget on the right side of the two plots allows users to choose the specific year they want to inspect. The default choice `summary` is designed to show a barplot comparing the total numbers of reports between 2017 and 2018.  The rest of the choices are left for users to pick a certain year and *further explore the distribution in each of 12 `months` in this year* (or to see the trajectory through the whole year).
+
+If users have intentions to dig deeper into the `crime` and `firecall` datasets, the information and plots below would fulfill their expectation.
+
+### 2. Crime dataset exploration
+**2.1 Pie chart(Elizabeth)**
 
 
-
-2 Technical Description
-
-2.1 Format of product 
-
-The format of our final product will be an HTML page with visuals and a detailed description of our analysis with our dataset. We will use simple HTML and CSS to present our graphs (as pictures) and include text that guides the audience to relevant information and explain our methodology in parsing and presenting the data.
-
-2.2 Methods of reading data
-
-We will be reading in our data in a static “.csv” file downloaded from the City of Seattle dataset website.
+**2.2 Bar plot(Yingrui)**
 
 
-2.3 Types of data-wrangling
-
-Our data wrangling will involve reformatting the gathered data by filtering out the data we will not be using to reduce the size of the data. We will also further reduce the size of the bulk data by only selecting relevant columns.  
-
-2.4 Major libraries 
-
-The major libraries that we will be using to program our project are “ggplot2” for the graphing elements, “tidyr” to make it easier to work with the data, and “mapproj” to help manipulate the map size.
-
-
-2.5 Statistical analysis or machine learning
-
-We are not planning to use either statistical analysis or machine learning in our project.
-
-
-2.6 Challenges 
-
-There are several major challenges that we will be facing. The first will be manipulating the data to get it into a format that is both easy to transform into our charts and maps, and also doesn’t carry unnecessary bulk. The biggest challenge will be making our charts and graphs interactive. We will need to be able to have the user change the year, be able to hover over a data grouping to see the statistics from it, and be able to change what data is shown in the charts.
+### 3. 911 dataset exploration(Colton)

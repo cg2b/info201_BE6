@@ -4,6 +4,7 @@ library("dplyr")
 library("ggplot2")
 library("lubridate")
 library("mapproj")
+library("maps")
 
 df_crime <- read.csv(file = "../data/crime.csv", sep = ",", stringsAsFactors = FALSE)
 df_911 <- read.csv(file = "../data/SEAfire911.csv", sep = ",", stringsAsFactors = FALSE)
@@ -14,7 +15,7 @@ ui <- fluidPage(
     column(
       10,
       offset = 1,
-      tags$h2(tags$b("INFO 201 BE6: Social Safety in Seattle"))
+      tags$h2(tags$b("INFO 201 BE6: Public Safety in Seattle"))
     ),
     
     tags$br(),
@@ -35,10 +36,10 @@ ui <- fluidPage(
            tags$br(),
            tags$div("This is the distribution of our work:"),
            tags$br(),
-           tags$li(tags$b("Elizabeth:"), "pie chart"),
-           tags$li(tags$b("Yingrui:"), "bar part"),
-           tags$li(tags$b("Colton:"), "map part"),
-           tags$li(tags$b("Cheng:"), "Foverview and summarise into a shiny app")
+           tags$li(tags$b("Elizabeth:"), "interactive pie chart and description"),
+           tags$li(tags$b("Yingrui:"), "interactive bar plot and description"),
+           tags$li(tags$b("Colton:"), "interactive map and description"),
+           tags$li(tags$b("Cheng:"), "Overview plots and summarise codes into a shiny app")
            )
     )
   ),
@@ -172,7 +173,9 @@ ui <- fluidPage(
       offset = 1,
       splitLayout(
         cellWidths = c("50%", "50%"),
-        tags$div(textOutput("descrip_map")),
+        tags$div(tags$br(), 
+                 tags$br(),
+                 textOutput("descrip_map")),
         plotOutput("map"),
         cellArgs = list(style='white-space: normal;')
       )
@@ -181,7 +184,6 @@ ui <- fluidPage(
     # widgets of 911 Dataset Exploration
     column(
       3,
-      
       tags$br(),
       tags$br(),
       tags$blockquote(textOutput("wid_map")),
