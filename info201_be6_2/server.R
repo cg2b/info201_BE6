@@ -175,10 +175,13 @@ server <- function(input, output) {
   
   # data preparation
   input_data <- reactive({ 
-    
+    #filters the crime dataset by crime type 
     type.data <- filter(df_crime, df_crime$Crime.Subcategory == input$type)
     time.category <- c("morning", "afternoon", "night", "midnight")
-    
+    #count the filteded dataset by the frequency of a specific crime that took place in the 
+    #four time periods. Morning indicates from 8:00 to 11:49, afternoon indicates from 12:00 to 16:59
+    #night indicates from 17:00 to 23:59 and midnight implies from 00:00 to 07:59. 
+    #makes a vector composed of frequency of four time periods
       morning.freq <- nrow(type.data) - 
         count(type.data, 
               type.data$Occurred.Time >= 800 & type.data$Occurred.Time < 1200)[[1,2]]
@@ -191,7 +194,9 @@ server <- function(input, output) {
       midnight.freq <- nrow(type.data) - 
         count(type.data, 
               type.data$Occurred.Time >= 0 & type.data$Occurred.Time < 800)[[1,2]]
+      #makes a vector out of the four time period
       freq.crime <- c(morning.freq, afternoon.freq, night.freq, midnight.freq)
+      #make a data frame table out of four time periods 
       time.table <- data.frame(time.category, freq.crime)
       return(time.table)
       
@@ -202,7 +207,7 @@ server <- function(input, output) {
   
   # bar chart
   output$barPlot_state <- renderPlot({
-    
+    #input from the filtered dataset according the type of crime 
     time.table <- input_data()
     barplot(
       time.table$freq.crime, 
