@@ -156,7 +156,7 @@ server <- function(input, output) {
       
       pie(top20$Crime.Amount, 
           col = c("#ccffb2", "#feff9e", "#aaebf9", "#f5c1ff", "#ffa7dc"),
-          labels=top20$Neighborhood.Name, 
+          labels = top20$Neighborhood.Name, 
           main = paste0("Top 20 Crime Neighborhoods")
           )
     }
@@ -164,7 +164,7 @@ server <- function(input, output) {
       
       pie(least20$Crime.Amount, 
           col = c("#fc3232", "#13d604", "#ffe74d", "#ff8c4a", "#2b8fef"),
-          labels=least20$Neighborhood.Name, 
+          labels = least20$Neighborhood.Name, 
           main = paste0("Last 20 Crime Neighborhoods")
           )
     }
@@ -179,26 +179,6 @@ server <- function(input, output) {
     type.data <- filter(df_crime, df_crime$Crime.Subcategory == input$type)
     time.category <- c("morning", "afternoon", "night", "midnight")
     
-    if (type.data$Crime.Subcategory == "GAMBLE") {
-      
-      morning.freq <- nrow(type.data) - 
-        count(type.data, 
-              type.data$Occurred.Time >= 800 & type.data$Occurred.Time < 1200)[[1,2]]
-      afternoon.freq <- nrow(type.data) - 
-        count(type.data, 
-              type.data1$Occurred.Time >= 1200 & type.data$Occurred.Time < 1700)[[1,2]]
-      night.freq <- count(type.data, 
-                          type.data$Occurred.Time >= 1700 & type.data$Occurred.Time <= 2359)[[1,2]]
-      midnight.freq <- nrow(type.data) - 
-        count(type.data1, 
-              type.data$Occurred.Time >= 0 & type.data$Occurred.Time < 800)[[1,2]]
-      freq.crime <- c(morning.freq, afternoon.freq, night.freq, midnight.freq)
-      time.table <- data.frame(time.category, freq.crime)
-      return(time.table)
-      
-    } 
-    else {
-      
       morning.freq <- nrow(type.data) - 
         count(type.data, 
               type.data$Occurred.Time >= 800 & type.data$Occurred.Time < 1200)[[1,2]]
@@ -215,7 +195,7 @@ server <- function(input, output) {
       time.table <- data.frame(time.category, freq.crime)
       return(time.table)
       
-    }
+  
     
     
   })

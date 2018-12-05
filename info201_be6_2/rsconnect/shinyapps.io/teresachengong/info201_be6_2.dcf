@@ -5,8 +5,9 @@ account: teresachengong
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 604580
-bundleId: 1741749
+bundleId: 1741808
 url: https://teresachengong.shinyapps.io/info201_be6_2/
-when: 1543994890.62473
+when: 1543996753.35762
 asMultiple: FALSE
 asStatic: FALSE
+ignoredFiles: .RData
