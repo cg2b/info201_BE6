@@ -6,75 +6,34 @@ library("mapproj")
 
 df_crime <- read.csv(file = "../data/crime.csv", sep = ",", stringsAsFactors = FALSE)
 df_911 <- read.csv(file = "../data/SEAfire911.csv", sep = ",", stringsAsFactors = FALSE)
-data <- df_911
-crime.data <- df_crime
-
-## chart 3 & 4
-# data preparation of 911 dataset
-df_911$Datetime <- as.POSIXct(df_911$Datetime, format = "%m/%d/%Y")
-df_911$Year <- as.character(year(df_911$Datetime))
-df_911$Month <- month(df_911$Datetime)
-df_911 %>% select(Incident.Number, Year, Month) -> data_911
-rm(df_911)
-data_911 %>% 
-  group_by(Year) %>%
-  summarise(freq = n()) -> data_911_year
-
-
-# data preparation of crime dataset
-df_crime$Occurred.Date <- as.Date(df_crime$Occurred.Date, format = "%m/%d/%Y")
-df_crime$Year <- as.character(year(df_crime$Occurred.Date))
-df_crime$Month <- month(df_crime$Occurred.Date)
-df_crime %>% 
-  select(Report.Number, Year, Month) %>%
-  filter(Year == "2017" | Year == "2018")-> data_crime
-rm(df_crime)
-data_crime %>% 
-  group_by(Year) %>%
-  summarise(freq = n())  -> data_crime_year
+  
 
 server <- function(input, output) {
-  input_data <- reactive({ 
-    type.data <- filter(crime.data, crime.data$Crime.Subcategory == input$type)
-    time.category <- c("morning", "afternoon", "night", "midnight")
-    if (type.data$Crime.Subcategory == "GAMBLE") {
-      morning.freq <- nrow(type.data) - count(type.data, type.data$Occurred.Time >= 800 & type.data$Occurred.Time < 1200)[[1,2]]
-      afternoon.freq <- nrow(type.data) - count(type.data, type.data1$Occurred.Time >= 1200 & type.data$Occurred.Time < 1700)[[1,2]]
-      night.freq <- count(type.data, type.data$Occurred.Time >= 1700 & type.data$Occurred.Time <= 2359)[[1,2]]
-      midnight.freq <- nrow(type.data) - count(type.data1, type.data$Occurred.Time >= 0 & type.data$Occurred.Time < 800)[[1,2]]
-      freq.crime <- c(morning.freq, afternoon.freq, night.freq, midnight.freq)
-      time.table <- data.frame(time.category, freq.crime)
-      return(time.table)
-      
-    } else {
-      morning.freq <- nrow(type.data) - count(type.data, type.data$Occurred.Time >= 800 & type.data$Occurred.Time < 1200)[[1,2]]
-      afternoon.freq <- nrow(type.data) - count(type.data, type.data$Occurred.Time >= 1200 & type.data$Occurred.Time < 1700)[[1,2]]
-      night.freq <- nrow(type.data) - count(type.data, type.data$Occurred.Time >= 1700 & type.data$Occurred.Time <= 2359)[[1,2]]
-      midnight.freq <- nrow(type.data) - count(type.data, type.data$Occurred.Time >= 0 & type.data$Occurred.Time < 800)[[1,2]]
-      freq.crime <- c(morning.freq, afternoon.freq, night.freq, midnight.freq)
-      time.table <- data.frame(time.category, freq.crime)
-      return(time.table)
-      
-    }
-    
-    
-  })
+  
+  ## overview plots
+  # data preparation of 911 dataset
+  df_911$Datetime <- as.POSIXct(df_911$Datetime, format = "%m/%d/%Y")
+  df_911$Year <- as.character(year(df_911$Datetime))
+  df_911$Month <- month(df_911$Datetime)
+  df_911 %>% select(Incident.Number, Year, Month) -> data_911
+  data_911 %>% 
+    group_by(Year) %>%
+    summarise(freq = n()) -> data_911_year
   
   
+  # data preparation of crime dataset
+  df_crime$Occurred.Date <- as.Date(df_crime$Occurred.Date, format = "%m/%d/%Y")
+  df_crime$Year <- as.character(year(df_crime$Occurred.Date))
+  df_crime$Month <- month(df_crime$Occurred.Date)
+  df_crime %>% 
+    select(Report.Number, Year, Month) %>%
+    filter(Year == "2017" | Year == "2018")-> data_crime
+  data_crime %>% 
+    group_by(Year) %>%
+    summarise(freq = n())  -> data_crime_year
   
-  output$barPlot_state <- renderPlot({
-    time.table <- input_data()
-    barplot(time.table$freq.crime, 
-            horiz = TRUE,
-            main = "Frequency of crimes during certain time of a day",
-            las = 1,
-            names.arg = c("morning", "afternoon", "night", "midnight"),
-            xlab = "frequency of crimes",
-            col= c("mistyrose1", "mistyrose2", "mistyrose3", "mistyrose4"))
-    
-  })
   
-  # fire calls
+  # plot of firecalls
   output$firecall <- renderPlot({
     # overview of 2017 and 2018
     if(input$firecall == 1){
@@ -120,7 +79,7 @@ server <- function(input, output) {
     }
   })
   
-  # crime
+  # plot of crime
   output$crime <- renderPlot({
     if(input$crime == 1){
       ggplot(data_crime_year) +
@@ -166,14 +125,89 @@ server <- function(input, output) {
     
     
   })
+
+  ## 2 crime dataset exploration plots
+  
+  # 2.1 pie chart
+  
+  uniqueNeighborhoods <- unique(df_crime$Neighborhood)
+  
+  fullvector <- c()
+  for (one in uniqueNeighborhoods) {
+    one <- nrow(df_crime %>% filter(Neighborhood == one))
+    fullvector <- c(fullvector, one)
+  } 
+  
+  final <- data.frame("Neighborhood Name" = uniqueNeighborhoods, "Crime Amount" = fullvector)
+  final <- final[order(-(final$Crime.Amount)),]
+  top20 <- slice(final, 1:20)
+  
+  final2 <- final[order(-(final$Crime.Amount)),]
+  least20 <- slice(final, 1:20)
+  
+  output$pie <- renderPlot({
+    if (input$rank == "top20") {
+      pie(top20$Crime.Amount, col = c("#ccffb2", "#feff9e", "#aaebf9", "#f5c1ff", "#ffa7dc"),
+          labels=final$Neighborhood.Name, main = paste0("Top 20 Crime Neighborhoods"))
+    }
+    else {
+      pie(least20$Crime.Amount, col = c("#fc3232", "#13d604", "#ffe74d", "#ff8c4a", "#2b8fef"),
+          labels=final2$Neighborhood.Name, main = paste0("Last 20 Crime Neighborhoods"))
+    }
+  })
+  
+  
+  # 2.2 bar chart
+  
+  input_data <- reactive({ 
+    type.data <- filter(df_crime, df_crime$Crime.Subcategory == input$type)
+    time.category <- c("morning", "afternoon", "night", "midnight")
+    if (type.data$Crime.Subcategory == "GAMBLE") {
+      morning.freq <- nrow(type.data) - count(type.data, type.data$Occurred.Time >= 800 & type.data$Occurred.Time < 1200)[[1,2]]
+      afternoon.freq <- nrow(type.data) - count(type.data, type.data1$Occurred.Time >= 1200 & type.data$Occurred.Time < 1700)[[1,2]]
+      night.freq <- count(type.data, type.data$Occurred.Time >= 1700 & type.data$Occurred.Time <= 2359)[[1,2]]
+      midnight.freq <- nrow(type.data) - count(type.data1, type.data$Occurred.Time >= 0 & type.data$Occurred.Time < 800)[[1,2]]
+      freq.crime <- c(morning.freq, afternoon.freq, night.freq, midnight.freq)
+      time.table <- data.frame(time.category, freq.crime)
+      return(time.table)
+      
+    } else {
+      morning.freq <- nrow(type.data) - count(type.data, type.data$Occurred.Time >= 800 & type.data$Occurred.Time < 1200)[[1,2]]
+      afternoon.freq <- nrow(type.data) - count(type.data, type.data$Occurred.Time >= 1200 & type.data$Occurred.Time < 1700)[[1,2]]
+      night.freq <- nrow(type.data) - count(type.data, type.data$Occurred.Time >= 1700 & type.data$Occurred.Time <= 2359)[[1,2]]
+      midnight.freq <- nrow(type.data) - count(type.data, type.data$Occurred.Time >= 0 & type.data$Occurred.Time < 800)[[1,2]]
+      freq.crime <- c(morning.freq, afternoon.freq, night.freq, midnight.freq)
+      time.table <- data.frame(time.category, freq.crime)
+      return(time.table)
+      
+    }
+    
+    
+  })
+  
+  output$barPlot_state <- renderPlot({
+    time.table <- input_data()
+    barplot(time.table$freq.crime, 
+            horiz = TRUE,
+            main = "Frequency of crimes during certain time of a day",
+            las = 1,
+            names.arg = c("morning", "afternoon", "night", "midnight"),
+            xlab = "frequency of crimes",
+            col= c("mistyrose1", "mistyrose2", "mistyrose3", "mistyrose4"))
+    
+  })
+  
+  
+  
+  ## 3 911 dataset plot(map)
   
   pick_data <- reactive({
     #Finds year
-    data$Datetime = substr(data$Datetime, start = 1, stop = 10)
-    year <- year(as.POSIXlt(data$Datetime, format="%m/%d/%Y"))
+    df_911$Datetime = substr(df_911$Datetime, start = 1, stop = 10)
+    year <- year(as.POSIXlt(df_911$Datetime, format="%m/%d/%Y"))
     
     #Maniplutes the data to a more condensed, efficent form
-    data <- data %>%
+    data <- df_911 %>%
       mutate(Year = year) %>%
       #Includes only selected year
       filter(Year == input$year) %>%
@@ -204,59 +238,8 @@ server <- function(input, output) {
                             values = c(1.0,0.2,0.075,0.01,0)) + coord_map()
   })
   
-  uniqueNeighborhoods <- unique(crime.data$Neighborhood)
   
-  fullvector <- c()
-  for (one in uniqueNeighborhoods) {
-    one <- nrow(crime.data %>% filter(Neighborhood == one))
-    fullvector <- c(fullvector, one)
-  } 
-  
-  final <- data.frame("Neighborhood Name" = uniqueNeighborhoods, "Crime Amount" = fullvector)
-  # final <- final %>% filter(final, data$Precinct == input$region)
-  final <- final[order(-(final$Crime.Amount)),]
-  top20 <- slice(final, 1:20)
-  
-  final2 <- final[order(final$Crime.Amount),]
-  least20 <- slice(final, 1:20)
-  
-  output$pie <- renderPlot({
-    if (input$rank == "top20") {
-      pie(top20$Crime.Amount, col = c("#ccffb2", "#feff9e", "#aaebf9", "#f5c1ff", "#ffa7dc"),
-          labels=final$Neighborhood.Name, main = paste0("Top 20 Crime Neighborhoods"))
-    }
-    else {
-      pie(least20$Crime.Amount, col = c("#fc3232", "#13d604", "#ffe74d", "#ff8c4a", "#2b8fef"),
-          labels=final$Neighborhood.Name, main = paste0("Last 20 Crime Neighborhoods"))
-    }
-  })
-  
-  output$descrip_map <- renderText({
-    paste("The map is created using longitude and latitude data and shows the amount of fires in the area via color.
-          This map will allow people to see which areas in Seattle are have the most fires and also allow them to see the changes from year to year. 
-          There are two widgets that affect this map: One changes the color of the map (green, red, blue, grey, and fire colors (red, yellow, orange)) 
-          and with the second you can change the year being displayed.")
-  })
-  
-  output$descrip_pie <- renderText({
-    paste0("The Pie Chart widget has two choices to select whether you want to view the Top 20 or Last 20 Crime Neighborhoods in Seattle.
-           If you select the Top 20 the top 10 neighborhoods with the most crime plot will be rendered. 
-           If you select the Last 20 there will be the Top 10 Neighborhoods with the least crime plot rendered. 
-           This will provide you clear insight on which neighborhoods have greater chances of crime according to the dataset.
-           The computations we calculated was that the neighborhood with the most crime was Downtown Commercial with a total of 13715 reported crimes from 2017 to 2018.
-           The neighborhood with the least crime was Commercial Harbor Island with only 64 reported crimes.")
-  })
-  
-  output$descrip_bar <- renderText({
-    paste("The horizontal Bar Plot named 'Frequency of crimes during time of a day'
-          illustrates the distribution of crimes during certain periods of a day. 
-          First, we can select a type of crime (a total of 30 types) under 'Select a Type of Crime'. 
-          The Bar Plot will show the frequency of crimes that occurs in the morning, 
-          in the afternoon, at night, at midnight for the specific type of crime. 
-          The time frame for the morning period is from 8:00 to 11:59;
-          afternoon period from 12:00 to 16:59; night period from 17:00 to 23:59 and midnight period from 00:00 to 7:59. 
-          For instance, we can see that Homicides take place the most frequently at night and the least frequently in the morning.")
-  })
+  ## output text
   
   output$summary <- renderText({
     "The major theme that this project will be exploring is social security in Seattle. 
@@ -268,5 +251,63 @@ server <- function(input, output) {
     This data is also found in Seattle Open Data Portal. The Crime Data consists of information regarding to Report Number, 
     occured data, occured time, reported data, reported time, Crime Subcategory and Primary Offense Description."
   })
+
+  # 1
+  output$descrip_overview <- renderText({
+    paste("The two plots above are displaying the *crime* and *firecall* recorded during the year 2017 and 2018. 
+          The widget on the right side of the two plots allows users to choose the specific year they want to inspect.", sep = "\n", 
+          "If users have intentions to dig deeper into the `crime` and `firecall` datasets, the information and plots below should fulfill their expectation.")
+    
+  })
+  
+  output$wid_overview <- renderText({
+    "The default choice `summary` is a barplot comparing the total reports between 2017 and 2018.  
+    The rest of the choices left two users to pick a year and *further explore the distribution in this year* based on `month`."
+    
+  })
+
+  # 2
+  output$descrip_pie <- renderText({
+    "The pie chart will provide you clear insight on *which neighborhoods have greater chances of crime* according to the dataset. 
+The computations we calculated was that the neighborhood with the most crime was Downtown Commercial with a total of 13715 reported crimes from 2017 to 2018. 
+    The neighborhood with the least crime was Commercial Harbor Island with only 64 reported crimes."
+  })
+  
+  output$wid_pie <- renderText({
+    "
+    The widget has two choices to select whether you want to view the `Top 20` or `Last 20` Crime Neighborhoods in Seattle. If you select the Top 20 the top 10 neighborhoods with the most crime plot will be rendered.
+    If you select the Last 20 there will be the Top 10 Neighborhoods with the least crime plot rendered. "
+    
+  })
+  
+  output$descrip_bar <- renderText({
+    paste("The horizontal Bar Plot named 'Frequency of crimes during time of a day'
+          illustrates the distribution of crimes during certain periods of a day. 
+          The time frame for the morning period is from 8:00 to 11:59;
+          afternoon period from 12:00 to 16:59; night period from 17:00 to 23:59 and midnight period from 00:00 to 7:59. 
+          For instance, we can see that Homicides take place the most frequently at night and the least frequently in the morning.")
+  })
+  
+  output$wid_bar <- renderText({
+    "Users can select a type of crime (a total of 30 types) under 'Select a Type of Crime'. 
+          The Bar Plot will show the frequency of crimes that occurs in the morning, 
+    in the afternoon, at night, at midnight for the specific type of crime. "
+    
+  })
+  
+  # 3
+  output$descrip_map <- renderText({
+    "The map is created using longitude and latitude data and shows the amount of fires in the area via color.
+    This map will allow people to see which areas in Seattle are have the most fires and also allow them to see the changes from year to year. 
+    "
+  })
+  
+  output$wid_map <- renderText({
+    "There are two widgets that affect this map: 
+    One changes the *color* of the map (green, red, blue, grey, and fire colors (red, yellow, orange)) 
+    and with the second you can change the *year* being displayed."
+  })
+  
+  
   
   }

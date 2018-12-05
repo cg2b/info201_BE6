@@ -1,5 +1,12 @@
 
 library("shiny")
+library("dplyr")
+library("ggplot2")
+library("lubridate")
+library("mapproj")
+
+df_crime <- read.csv(file = "../data/crime.csv", sep = ",", stringsAsFactors = FALSE)
+df_911 <- read.csv(file = "../data/SEAfire911.csv", sep = ",", stringsAsFactors = FALSE)
 
 ui <- fluidPage(
   fluidRow(
@@ -7,7 +14,7 @@ ui <- fluidPage(
     column(
       10,
       offset = 1,
-      tags$h2(tags$b("INFO 201 BE6: Social Security"))
+      tags$h2(tags$b("INFO 201 BE6: Social Safety in Seattle"))
     ),
     
     tags$br(),
@@ -59,8 +66,9 @@ ui <- fluidPage(
           plotOutput("firecall"), 
           plotOutput("crime")
           
-        )
-        
+        ),
+      tags$br(),
+      tags$div(textOutput("descrip_overview"))
       )
     ),
     
@@ -69,8 +77,7 @@ ui <- fluidPage(
       3,
       tags$br(),
       tags$br(),
-      tags$br(),
-      tags$br(),
+      tags$blockquote(textOutput("wid_overview")),
       radioButtons(
         "firecall",
         label = "Distribution of Firecall: Select a year",
@@ -84,14 +91,8 @@ ui <- fluidPage(
         selected = 1
       )
       
-    ),
-    
-    column(
-      10,
-      offset = 1,
-      tags$br(),
-      tags$div("my description here ahhhh")
     )
+    
     
   ),
   
@@ -117,7 +118,13 @@ ui <- fluidPage(
         cellWidths = c("50%", "50%"),
         plotOutput('pie'),
         plotOutput("barPlot_state")
-      )
+      ),
+      tags$br(),
+      tags$h4(tags$b("2.1 Pie Chart")),
+      tags$div(textOutput("descrip_pie")),
+      tags$br(),
+      tags$h4(tags$b("2.2 Bar Chart")),
+      tags$div(textOutput("descrip_bar"))
     
     ), 
     
@@ -125,33 +132,24 @@ ui <- fluidPage(
     column(
       3,
       tags$br(),
-      tags$br(),
-      tags$br(),
-      tags$br(),
+      
       # type of crimes
+      tags$blockquote(textOutput("wid_bar")),
       selectInput("type", 
                   label = "Select a Type of Crime", 
-                  choices = unique(crime.data$Crime.Subcategory)
+                  choices = unique(df_crime$Crime.Subcategory)
       ),
+      tags$br(),
       # crime neiborhoods
+      tags$blockquote(textOutput("wid_pie")),
       radioButtons("rank", 
                    label = "Pick Which Neighborhoods",
                    choices = list("Top 20 Crime Neighborhoods" = "top20", 
                                   "Last 20 Crime Neighborhoods" = "last20")
       )
       
-    ),
-    
-    column(
-      10,
-      offset = 1,
-      tags$br(),
-      tags$h4(tags$b("2.1 Pie Chart")),
-      tags$div(textOutput("descrip_pie")),
-      tags$br(),
-      tags$h4(tags$b("2.2 Bar Chart")),
-      tags$div(textOutput("descrip_bar"))
     )
+    
     
   ),
   
@@ -183,10 +181,11 @@ ui <- fluidPage(
     # widgets of 911 Dataset Exploration
     column(
       3,
+      
       tags$br(),
       tags$br(),
-      tags$br(),
-      tags$br(),
+      tags$blockquote(textOutput("wid_map")),
+      
       selectInput("color", 
                   label = "Select a color:", 
                   c(Green = "green", 
@@ -200,6 +199,8 @@ ui <- fluidPage(
         "Select a year",
         c("2017", "2018")
       )
+      
+    
     )
     
   )  
