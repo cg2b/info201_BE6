@@ -116,7 +116,7 @@ ui <- fluidPage(
       8,
       offset = 1,
       splitLayout(
-        cellWidths = c("50%", "50%"),
+        cellWidths = c("45%", "55%"),
         plotOutput('pie'),
         plotOutput("barPlot_state")
       ),
@@ -145,8 +145,8 @@ ui <- fluidPage(
       tags$blockquote(textOutput("wid_pie")),
       radioButtons("rank", 
                    label = "Pick Which Neighborhoods",
-                   choices = list("Top 20 Crime Neighborhoods" = "top20", 
-                                  "Last 20 Crime Neighborhoods" = "last20")
+                   choices = list("Top 10 Crime Neighborhoods" = "top10", 
+                                  "Last 10 Crime Neighborhoods" = "last10")
       )
       
     )
@@ -172,7 +172,7 @@ ui <- fluidPage(
       8,
       offset = 1,
       splitLayout(
-        cellWidths = c("50%", "50%"),
+        cellWidths = c("40%", "10%", "40%"),
         tags$div(tags$br(), 
                  tags$br(),
                  textOutput("descrip_map")),

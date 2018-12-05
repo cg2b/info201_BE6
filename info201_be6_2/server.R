@@ -144,28 +144,28 @@ server <- function(input, output) {
   } 
   final <- data.frame("Neighborhood Name" = uniqueNeighborhoods, "Crime Amount" = fullvector)
   final <- final[order(-(final$Crime.Amount)),]
-  top20 <- slice(final, 1:20)
+  top10<- slice(final, 1:10)
   
   final2 <- final[order(final$Crime.Amount),]
-  least20 <- slice(final2, 1:20)
+  least10<- slice(final2, 1:10)
   
   # pie chart
   
   output$pie <- renderPlot({
     if (input$rank == "top20") {
       
-      pie(top20$Crime.Amount, 
+      pie(top10$Crime.Amount, 
           col = c("#ccffb2", "#feff9e", "#aaebf9", "#f5c1ff", "#ffa7dc"),
-          labels = top20$Neighborhood.Name, 
-          main = paste0("Top 20 Crime Neighborhoods")
+          labels = top10$Neighborhood.Name, 
+          main = paste0("Top 10 Crime Neighborhoods")
           )
     }
     else {
       
-      pie(least20$Crime.Amount, 
+      pie(least10$Crime.Amount, 
           col = c("#fc3232", "#13d604", "#ffe74d", "#ff8c4a", "#2b8fef"),
-          labels = least20$Neighborhood.Name, 
-          main = paste0("Last 20 Crime Neighborhoods")
+          labels = least10$Neighborhood.Name, 
+          main = paste0("Last 10 Crime Neighborhoods")
           )
     }
   })
@@ -304,9 +304,9 @@ server <- function(input, output) {
   })
   
   output$wid_pie <- renderText({
-    "The widget has two choices to select whether you want to view the Top 20 or Last 20 Crime Neighborhoods in Seattle. 
-    If you select the Top 20 the top 10 neighborhoods with the most crime plot will be rendered.
-    If you select the Last 20 there will be the Top 10 Neighborhoods with the least crime plot rendered. "
+    "The widget has two choices to select whether you want to view the Top 10 or Last 10 Crime Neighborhoods in Seattle. 
+    If you select the Top 10 the top 10 neighborhoods with the most crime plot will be rendered.
+    If you select the Last 10 there will be the Top 10 Neighborhoods with the least crime plot rendered. "
     
   })
   
