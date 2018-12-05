@@ -333,8 +333,8 @@ server <- function(input, output) {
   
   output$wid_map <- renderText({
     "There are two widgets that affect this map: 
-    One changes the color of the map (green, red, blue, grey, and fire colors (red, yellow, orange)) 
-    and with the second you can change the year being displayed."
+    One changes the color of the map (green, red, blue, grey, and 'fire colors' (red, yellow, orange)) 
+    and with the second one you can change the year being displayed."
   })
   
   
