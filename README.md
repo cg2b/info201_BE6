@@ -1,7 +1,7 @@
 # INFO 201 BE6: Public Safety in Seattle
 Group members: Cheng Gong, Yingrui Jia, Elizabeth Lin, and Colton Hagan
 
-[Link to Shiny App: Public Safety in Seattle](https://elizabethlin6.shinyapps.io/a8-app-elizabethlin6/)
+[Link to Shiny App: Public Safety in Seattle](https://coltonhagan55.shinyapps.io/info201_be6_2/)
 
 ### Background Information (Cheng)
 The theme our group is going to explore is public safety in Seattle. Therefore, we downloaded two datasets that highly represent the certain situation in Seattle, `crime` and `firecall` datasets containing relevant information of date and time of reports, locations of the reports, types of the reports on the website `Seattle Open Data Portal`. This project focuses on people who are concerned about their safety in Seattle. By using R packages and shiny application, we made this report and gives people visualizations of frequency that reported crimes or fire calls differentiate in different neighborhoods or time periods in Seattle.
