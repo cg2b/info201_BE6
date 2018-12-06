@@ -4,8 +4,8 @@ library("ggplot2")
 library("lubridate")
 library("mapproj")
 
-df_crime <- read.csv(file = "../data/crime.csv", sep = ",", stringsAsFactors = FALSE)
-df_911 <- read.csv(file = "../data/SEAfire911.csv", sep = ",", stringsAsFactors = FALSE)
+df_crime <- read.csv(file = "data/crime.csv", sep = ",", stringsAsFactors = FALSE)
+df_911 <- read.csv(file = "data/SEAfire911.csv", sep = ",", stringsAsFactors = FALSE)
 df_911_3 <- df_911
   
 
@@ -16,6 +16,8 @@ server <- function(input, output) {
   df_911$Datetime <- as.POSIXct(df_911$Datetime, format = "%m/%d/%Y")
   df_911$Year <- as.character(year(df_911$Datetime))
   df_911$Month <- month(df_911$Datetime)
+  df_911$Month <- month.abb[df_911$Month]
+  
   df_911 %>% select(Incident.Number, Year, Month) -> data_911
   data_911 %>% 
     group_by(Year) %>%
@@ -26,6 +28,7 @@ server <- function(input, output) {
   df_crime$Occurred.Date <- as.Date(df_crime$Occurred.Date, format = "%m/%d/%Y")
   df_crime$Year <- as.character(year(df_crime$Occurred.Date))
   df_crime$Month <- month(df_crime$Occurred.Date)
+  df_crime$Month <- month.abb[df_crime$Month]
   df_crime %>% 
     select(Report.Number, Year, Month) %>%
     filter(Year == "2017" | Year == "2018")-> data_crime
@@ -74,7 +77,7 @@ server <- function(input, output) {
         aes(x = Month, y = freq, fill = Month) +
         geom_text(label = data_911_month$freq) +
         ggtitle(paste("911 Fire Calls in", input$firecall, "from January to December")) +
-        labs(x = "month", y = "reports") +
+        labs(x = "Month", y = "Reports") +
         theme(panel.background = element_rect(fill = "grey98")) +
         coord_fixed(ratio = 1/1000)
       
@@ -119,7 +122,7 @@ server <- function(input, output) {
         aes(x = Month, y = freq, fill = Month) +
         geom_text(label = data_crime_month$freq) +
         ggtitle(paste("Crimes in", input$firecall, "from January to December")) +
-        labs(x = "month", y = "reports") +
+        labs(x = "Month", y = "Reports") +
         theme(panel.background = element_rect(fill = "grey98")) +
         coord_fixed(ratio = 1/500)
       

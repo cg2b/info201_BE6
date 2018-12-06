@@ -6,8 +6,8 @@ library("lubridate")
 library("mapproj")
 library("maps")
 
-df_crime <- read.csv(file = "../data/crime.csv", sep = ",", stringsAsFactors = FALSE)
-df_911 <- read.csv(file = "../data/SEAfire911.csv", sep = ",", stringsAsFactors = FALSE)
+df_crime <- read.csv(file = "data/crime.csv", sep = ",", stringsAsFactors = FALSE)
+df_911 <- read.csv(file = "data/SEAfire911.csv", sep = ",", stringsAsFactors = FALSE)
 
 ui <- fluidPage(
   fluidRow(
@@ -172,10 +172,8 @@ ui <- fluidPage(
       8,
       offset = 1,
       splitLayout(
-        cellWidths = c("50%", "40%"),
-        tags$div(tags$br(), 
-                 tags$br(),
-                 textOutput("descrip_map")),
+        cellWidths = c("50%", "50%"),
+        tags$div(textOutput("descrip_map")),
         plotOutput("map"),
         cellArgs = list(style='white-space: normal;')
       )
