@@ -21,7 +21,7 @@ data_911 %>%
   summarise(freq = n()) -> data_911_year
 
 
-# data preparation of crime dataset
+# data prep of crime dataset
 df_crime$Occurred.Date <- as.Date(df_crime$Occurred.Date, format = "%m/%d/%Y")
 df_crime$Year <- as.character(year(df_crime$Occurred.Date))
 df_crime$Month <- month(df_crime$Occurred.Date)
