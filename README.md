@@ -19,6 +19,7 @@ If users have intentions to dig deeper into the `crime` and `firecall` datasets,
 
 ### 2. Crime Dataset Exploration
 **2.1 Pie Chart (Elizabeth)**
+
 This pie chart display the top 20 most common crime neighborhoods or the least 20 crime neighborhoods in Seattle. The widget helps to interact between both charts to view the common crime locations in Seattle. This chart is important for clients who want to be able to learn about the frequency of Crime in Seattle neighborhoods. This visualization provides a breakdown in terms of regions of Seattle that have the most reports collected by the City of Seattle. Our data is initially from the City of Seattle and this dataset is updated every 5 minutes to reflect the real-time trends in term of Crime reports in Seattle. 
 
 From our visualization, I computed that:
@@ -28,6 +29,7 @@ From our visualization, I computed that:
 
 
 **2.2 Barplot (Yingrui)**
+
 This plot displays the frequency of crimes during certain time of a day. The x axis is the frequency and the y axis stands for four time periods. Specifically, morning indicates from 08:00 to 11:59. Afternoon indicates from 12:00 to 16:59. Night indicates from 17:00 to 23:59 and midnight suggests from 00:00 to 07:59. The widget controls the the type of crime being showed up on the plot. For example, we see that Theft and shoplifting happens the most frequently during the afternoon and the least frequently at midnight. From going over the plot for various kinds of crimes across all 30 types of them, we see that generally robbery related crimes happen more frequently during night and midnight and stealing related crimes often took place during the afternoon and early in the morning. 
 
 
