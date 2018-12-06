@@ -35,3 +35,4 @@ This plot displays the frequency of crimes during certain time of a day. The x a
 
 
 ### 3. 911 Dataset Exploration(Colton)
+My contribution to the project was making a map of Seattle showing which areas had the highest chance of calling 911 over a fire.  The color shows which areas have the most fire calls. You can interact with the map in a couple days: You can just change the cosmetics by changing the color that the map displays in  (green, red, blue, grey, or 'fire colors' (red, yellow, orange)). You can also change what year is being displayed (either 2017 or 2018) like this so you can see if there are any changes on a year to year basis. 
